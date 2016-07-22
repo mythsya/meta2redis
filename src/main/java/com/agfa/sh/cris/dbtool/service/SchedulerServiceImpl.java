@@ -21,12 +21,18 @@ public class SchedulerServiceImpl implements SchedulerService {
 	@Override
 	public void run() {
 		if (logger.isInfoEnabled()) {
+			logger.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 			logger.info("scheduler is running...");
 		}
 		
 		examItemSyncService.sync();
 		
 		departmentSyncService.sync();
+		
+		if (logger.isInfoEnabled()) {
+			logger.info("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+			logger.info("\n");
+		}
 	}
 
 }
