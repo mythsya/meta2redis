@@ -23,7 +23,8 @@ public class SchedulerServiceImpl implements SchedulerService {
 	@Autowired
 	private ReportTemplateSyncService reportTemplateSyncService;
 	
-	@Scheduled(cron="0/20 * * * * ?")
+	//@Scheduled(cron="0/20 * * * * ?")
+	@Scheduled(cron="0 0 22 * * ?")
 	@Override
 	public void run() {
 		if (logger.isInfoEnabled()) {
@@ -31,11 +32,11 @@ public class SchedulerServiceImpl implements SchedulerService {
 			logger.info("scheduler is running...");
 		}
 		
-		//examItemSyncService.sync();
+		examItemSyncService.sync();
 		
-		//departmentSyncService.sync();
+		departmentSyncService.sync();
 		
-		//professionalSyncService.sync();
+		professionalSyncService.sync();
 		
 		reportTemplateSyncService.sync();
 		
