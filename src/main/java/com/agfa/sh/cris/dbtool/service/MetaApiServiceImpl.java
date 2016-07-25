@@ -1,5 +1,7 @@
 package com.agfa.sh.cris.dbtool.service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import org.slf4j.Logger;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Component;
 import com.agfa.sh.cris.dbtool.AppConstants;
 import com.agfa.sh.cris.dbtool.domain.SimpleBaseData;
 import com.agfa.sh.cris.dbtool.domain.SimpleDepartment;
+import com.agfa.sh.cris.dbtool.domain.SimpleDevice;
 import com.agfa.sh.cris.dbtool.domain.SimpleExamItem;
 import com.agfa.sh.cris.dbtool.domain.SimpleProfessional;
 import com.agfa.sh.cris.dbtool.domain.SimpleReportTemplatePlaintext;
@@ -217,5 +220,48 @@ public class MetaApiServiceImpl implements MetaApiService {
 	
 	private String getValue(String key) {
 		return stringRedisTemplate.opsForValue().get(key);
+	}
+
+	@Override
+	public SimpleDevice getDevice(String code) {
+		String prefix = "dev:"+code+":";
+		if (isKeyExists(prefix+"code")) {
+			SimpleDevice dev = new SimpleDevice();
+			dev.setId(getValue(prefix+"id"));
+			dev.setCode(getValue(prefix+"code"));
+			dev.setName(getValue(prefix+"name"));
+			
+			SimpleBaseData mdt = new SimpleBaseData();
+			mdt.setCode(getValue(prefix+"type"));			
+			dev.setModalityType(mdt);
+			return dev;
+		}
+		
+		return null;
+	}
+
+	@Override
+	public SimpleDevice randomDevice(String type) {
+		List<SimpleDevice> sublist = new ArrayList<SimpleDevice>();
+		int total = getCountFor(AppConstants.KEY_DEVICE_COUNT);
+		if (total > 0) {
+			for(int idx =1 ; idx<= total ; idx++) {
+				String key = "dev:"+idx;
+				if (isKeyExists(key)) {
+					String code =getValue(key);
+					SimpleDevice dev = getDevice(code);
+					if (type.equalsIgnoreCase(dev.getModalityType().getCode())) {
+						sublist.add(dev);
+					}
+				}
+			}
+			int subtotal = sublist.size();
+			if (subtotal > 0) {
+				Random rnd = new Random();
+				int idx = rnd.nextInt(subtotal); // [0, subtotal-1]
+				return sublist.get(idx);
+			}
+		}
+		return null;
 	}
 }

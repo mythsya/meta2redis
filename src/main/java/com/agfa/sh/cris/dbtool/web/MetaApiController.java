@@ -2,10 +2,12 @@ package com.agfa.sh.cris.dbtool.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.agfa.sh.cris.dbtool.domain.SimpleDepartment;
+import com.agfa.sh.cris.dbtool.domain.SimpleDevice;
 import com.agfa.sh.cris.dbtool.domain.SimpleExamItem;
 import com.agfa.sh.cris.dbtool.domain.SimpleProfessional;
 import com.agfa.sh.cris.dbtool.domain.SimpleReportTemplatePlaintext;
@@ -139,6 +141,17 @@ public class MetaApiController {
 		ReportTemplateJson json = new ReportTemplateJson();
 		if (d != null) {
 			json = new ReportTemplateJson(d);
+		}
+		return json;
+	}
+	
+	@RequestMapping("/device/random")
+	@JsonView(MetaCodedBeanJson.WithJsonView.class)
+	public MetaCodedBeanJson randomDevice(@RequestParam(name="type", required=true) String type) {
+		SimpleDevice dev = metaApiService.randomDevice(type);
+		MetaCodedBeanJson json = new MetaCodedBeanJson();
+		if (dev != null) {
+			json = new MetaCodedBeanJson(dev);
 		}
 		return json;
 	}

@@ -2,6 +2,7 @@ package com.agfa.sh.cris.dbtool.web;
 
 import com.agfa.sh.cris.dbtool.domain.SimpleBaseData;
 import com.agfa.sh.cris.dbtool.domain.SimpleDepartment;
+import com.agfa.sh.cris.dbtool.domain.SimpleDevice;
 import com.agfa.sh.cris.dbtool.domain.SimpleExamItem;
 import com.agfa.sh.cris.dbtool.domain.SimpleProfessional;
 import com.fasterxml.jackson.annotation.JsonView;
@@ -51,4 +52,10 @@ public class MetaCodedBeanJson {
 		this.extra = "";
 	}
 
+	public MetaCodedBeanJson(SimpleDevice v) {
+		this.id = v.getId();
+		this.code = v.getCode();
+		this.name = v.getName();
+		this.extra = v.getModalityType().getCode();
+	}
 }

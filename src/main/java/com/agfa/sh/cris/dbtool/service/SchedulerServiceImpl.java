@@ -23,6 +23,9 @@ public class SchedulerServiceImpl implements SchedulerService {
 	@Autowired
 	private ReportTemplateSyncService reportTemplateSyncService;
 	
+	@Autowired
+	private DeviceSyncService deviceSyncService;
+	
 	//@Scheduled(cron="0/20 * * * * ?")
 	@Scheduled(cron="0 0 22 * * ?")
 	@Override
@@ -39,6 +42,8 @@ public class SchedulerServiceImpl implements SchedulerService {
 		professionalSyncService.sync();
 		
 		reportTemplateSyncService.sync();
+		
+		deviceSyncService.sync();
 		
 		if (logger.isInfoEnabled()) {
 			logger.info("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
