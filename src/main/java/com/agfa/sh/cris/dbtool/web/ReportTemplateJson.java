@@ -25,5 +25,8 @@ public class ReportTemplateJson {
 		this.title = p.getTitle();
 		this.impressions = p.getImpressions();
 		this.conclusions = p.getConclusions();
+		if (this.conclusions == null || this.conclusions.isEmpty()) {
+			this.conclusions = "测试";
+		}
 	}
 }
