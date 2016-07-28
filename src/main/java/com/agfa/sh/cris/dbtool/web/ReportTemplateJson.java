@@ -25,8 +25,11 @@ public class ReportTemplateJson {
 		this.title = p.getTitle();
 		this.impressions = p.getImpressions();
 		this.conclusions = p.getConclusions();
+		if (this.impressions == null || this.impressions.isEmpty()) {
+			this.impressions = "测试检查所见";
+		}
 		if (this.conclusions == null || this.conclusions.isEmpty()) {
-			this.conclusions = "测试";
+			this.conclusions = "测试结论";
 		}
 	}
 }
