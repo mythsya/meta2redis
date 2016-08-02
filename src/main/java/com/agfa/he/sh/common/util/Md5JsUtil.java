@@ -1,9 +1,15 @@
 package com.agfa.he.sh.common.util;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
 import javax.script.Invocable;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
+
+import org.springframework.core.io.DefaultResourceLoader;
+import org.springframework.core.io.Resource;
 
 public class Md5JsUtil {
 
@@ -11,8 +17,13 @@ public class Md5JsUtil {
 	
 	static {
 		try {
-			engine.eval("load('src/main/resources/md5.js')");
-		} catch (ScriptException e) {
+			DefaultResourceLoader resourceLoader = new DefaultResourceLoader();
+			Resource resource = resourceLoader.getResource("md5.js");
+			//System.out.println(resource.getInputStream());
+			
+			engine.eval(new BufferedReader(new InputStreamReader(resource.getInputStream())));
+			//engine.eval("load('src/main/resources/md5.js')");
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
