@@ -10,10 +10,4 @@ public class RisPasswordUtil {
 		return md5PasswordEncoder.encodePassword(rawPass, userId);
 	}
 	
-	public static void main(String[] args) {
-		String encodedPwd = Md5JsUtil.b64_md5("123"); 
-		encodedPwd = encodePassword(encodedPwd, "2c9a495534452928013445d902cf28d3");
-		
-		System.out.println(encodedPwd);
-	}
 }

@@ -17,10 +17,6 @@ public class Md5JsUtil {
 		}
 	}
 	
-	public static void main(String[] args) {
-		System.out.println(b64_md5("123"));
-	}
-	
 	public static final String b64_md5(String source) {
 		Invocable invocable = (Invocable) engine;
 		try {
