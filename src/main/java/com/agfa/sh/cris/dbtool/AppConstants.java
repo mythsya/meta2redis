@@ -13,4 +13,6 @@ public class AppConstants {
 	public static final String KEY_REPORT_TEMPLATE_COUNT = "report_template_count";
 	
 	public static final String KEY_DEVICE_COUNT = "device_count";
+	
+	public static final String KEY_USER_COUNT = "user_count";
 }

@@ -5,6 +5,7 @@ import com.agfa.sh.cris.dbtool.domain.SimpleDevice;
 import com.agfa.sh.cris.dbtool.domain.SimpleExamItem;
 import com.agfa.sh.cris.dbtool.domain.SimpleProfessional;
 import com.agfa.sh.cris.dbtool.domain.SimpleReportTemplatePlaintext;
+import com.agfa.sh.cris.dbtool.domain.SimpleUser;
 
 public interface MetaApiService {
 
@@ -31,4 +32,9 @@ public interface MetaApiService {
 	SimpleDevice getDevice(String code);
 	
 	SimpleDevice randomDevice(String type);
+	
+	SimpleUser getUser(String uid);
+	
+	SimpleUser randomUser(String authority);	
+	
 }

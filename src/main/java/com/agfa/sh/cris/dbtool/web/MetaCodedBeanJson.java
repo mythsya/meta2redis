@@ -5,6 +5,7 @@ import com.agfa.sh.cris.dbtool.domain.SimpleDepartment;
 import com.agfa.sh.cris.dbtool.domain.SimpleDevice;
 import com.agfa.sh.cris.dbtool.domain.SimpleExamItem;
 import com.agfa.sh.cris.dbtool.domain.SimpleProfessional;
+import com.agfa.sh.cris.dbtool.domain.SimpleUser;
 import com.fasterxml.jackson.annotation.JsonView;
 
 public class MetaCodedBeanJson {
@@ -57,5 +58,12 @@ public class MetaCodedBeanJson {
 		this.code = v.getCode();
 		this.name = v.getName();
 		this.extra = v.getModalityType().getCode();
+	}
+	
+	public MetaCodedBeanJson(SimpleUser v) {
+		this.id = v.getId();
+		this.code = v.getUsername();
+		this.name = v.getRoleName();
+		this.extra = v.getPassword();
 	}
 }

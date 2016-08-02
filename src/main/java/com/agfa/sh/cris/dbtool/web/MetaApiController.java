@@ -11,6 +11,7 @@ import com.agfa.sh.cris.dbtool.domain.SimpleDevice;
 import com.agfa.sh.cris.dbtool.domain.SimpleExamItem;
 import com.agfa.sh.cris.dbtool.domain.SimpleProfessional;
 import com.agfa.sh.cris.dbtool.domain.SimpleReportTemplatePlaintext;
+import com.agfa.sh.cris.dbtool.domain.SimpleUser;
 import com.agfa.sh.cris.dbtool.service.MetaApiService;
 import com.fasterxml.jackson.annotation.JsonView;
 
@@ -152,6 +153,17 @@ public class MetaApiController {
 		MetaCodedBeanJson json = new MetaCodedBeanJson();
 		if (dev != null) {
 			json = new MetaCodedBeanJson(dev);
+		}
+		return json;
+	}
+	
+	@RequestMapping("/user/random")
+	@JsonView(MetaCodedBeanJson.WithJsonView.class)
+	public MetaCodedBeanJson randomUser(@RequestParam(name="authority", required=true) String authority) {
+		SimpleUser user = metaApiService.randomUser(authority);
+		MetaCodedBeanJson json = new MetaCodedBeanJson();
+		if (user != null) {
+			json = new MetaCodedBeanJson(user);
 		}
 		return json;
 	}

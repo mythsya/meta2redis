@@ -9,14 +9,17 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import com.agfa.sh.cris.dbtool.AppConstants;
 import com.agfa.sh.cris.dbtool.domain.SimpleBaseData;
 import com.agfa.sh.cris.dbtool.domain.SimpleDepartment;
 import com.agfa.sh.cris.dbtool.domain.SimpleDevice;
 import com.agfa.sh.cris.dbtool.domain.SimpleExamItem;
+import com.agfa.sh.cris.dbtool.domain.SimpleGroup;
 import com.agfa.sh.cris.dbtool.domain.SimpleProfessional;
 import com.agfa.sh.cris.dbtool.domain.SimpleReportTemplatePlaintext;
+import com.agfa.sh.cris.dbtool.domain.SimpleUser;
 
 @Component
 public class MetaApiServiceImpl implements MetaApiService {
@@ -261,6 +264,47 @@ public class MetaApiServiceImpl implements MetaApiService {
 				int idx = rnd.nextInt(subtotal); // [0, subtotal-1]
 				return sublist.get(idx);
 			}
+		}
+		return null;
+	}
+
+	@Override
+	public SimpleUser randomUser(String authority) {
+		authority = authority.toLowerCase();
+		String aukey = "user:wi:"+authority;
+		String defaultkey = "user:default";
+		if (isKeyExists(aukey)) {
+			String uids = getValue(aukey);
+			if (uids != null && !uids.isEmpty()) {
+				String[] uidarr = StringUtils.commaDelimitedListToStringArray(uids);
+				Random rnd = new Random();
+				int idx = rnd.nextInt(uidarr.length);
+				return getUser(uidarr[idx]);
+			}
+			
+		} 
+		if (isKeyExists(defaultkey)) {
+			String defaultUid = getValue(defaultkey);
+			return getUser(defaultUid);
+		}
+		return null;
+	}
+
+	@Override
+	public SimpleUser getUser(String uid) {
+		String prefix = "user:"+uid+":";
+		if (isKeyExists(prefix+"id")) {
+			SimpleUser user = new SimpleUser();
+			user.setId(getValue(prefix+"id"));
+			user.setUsername(getValue(prefix+"username"));
+			user.setRoleName(getValue(prefix+"name"));
+			user.setPassword(getValue(prefix+"rawpwd"));
+			
+			SimpleGroup group = new SimpleGroup();
+			group.setId(getValue(prefix+"group"));
+			user.setCurrentGroup(group);
+			
+			return user;
 		}
 		return null;
 	}
